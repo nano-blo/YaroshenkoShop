@@ -140,3 +140,4 @@ C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\refint\Y
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.pdb
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.genruntimeconfig.cache
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\ref\YaroshenkoShop.dll
+C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.sourcelink.json
