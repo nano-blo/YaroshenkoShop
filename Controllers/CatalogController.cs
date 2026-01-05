@@ -4,6 +4,7 @@ using YaroshenkoShop.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using YaroshenkoShop.Data;
+using System.Xml.Linq;
 
 namespace YaroshenkoShop.Controllers
 {
@@ -29,7 +30,7 @@ namespace YaroshenkoShop.Controllers
                     Title = g.название,
                     Description = g.описание,
                     Price = g.цена,
-                    ImageUrl = g.ImageUrl,
+                    ImageUrl = g.изображение,
                     ReleaseYear = g.год_выпуска,
                     Developer = g.Developer != null ? g.Developer.разработчик : "Не указан",
                     AvailableKeys = _context.Keys
@@ -37,8 +38,8 @@ namespace YaroshenkoShop.Controllers
                                    (k.продан == false || k.продан == null)),
                     Genres = g.GameGenres.Select(gg => gg.Genre.жанр).ToList() // ← ДОБАВЬ ЭТО
                 })
-                .Where(g => g.AvailableKeys > 0)
-                .Take(20)
+                /*.Where(g => g.AvailableKeys > 0)
+                .Take(20)*/
                 .ToListAsync();
 
             return View(games);
@@ -79,7 +80,7 @@ namespace YaroshenkoShop.Controllers
                 Title = game.название,
                 Description = game.описание,
                 Price = game.цена,
-                ImageUrl = game.ImageUrl,
+                ImageUrl = game.изображение,
                 ReleaseYear = game.год_выпуска,
                 Developer = game.Developer != null ? game.Developer.разработчик : "Не указан",
                 AvailableKeys = availableKeys,
