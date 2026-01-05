@@ -1,0 +1,64 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Каталог игр";
+}
+
+<h1>🎮 Каталог игр</h1>
+
+@if (Model == null || Model.Count == 0)
+{
+    <div class="alert alert-info">
+        <h4>Игры не найдены</h4>
+        <p>В каталоге пока нет игр.</p>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var game in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <!-- Изображение -->
+                    @if (!string.IsNullOrEmpty(game.Image))
+                    {
+                        <img src="@game.Image" class="card-img-top" alt="@game.Title">
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@game.Title</h5>
+                        <p class="text-muted">@game.Developer • @game.Year</p>
+
+                        @if (game.Genres != null)
+                        {
+                            <div class="mb-2">
+                                @foreach (var genre in game.Genres)
+                                {
+                                    <span class="badge bg-secondary me-1">@genre</span>
+                                }
+                            </div>
+                        }
+
+                        <p class="card-text">@game.Description</p>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success">
+                                Ключей: @game.AvailableKeys
+                            </span>
+                            @if (game.Price.HasValue)
+                            {
+                                <span class="h5 text-primary">@game.Price.Value.ToString("C")</span>
+                            }
+                        </div>
+
+                        <a asp-action="Details" asp-route-id="@game.Id"
+                           class="btn btn-primary w-100 mt-2">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
