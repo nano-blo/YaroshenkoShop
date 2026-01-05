@@ -27,7 +27,7 @@ namespace YaroshenkoShop.Controllers
                     Title = g.название,
                     Description = g.описание,
                     Price = g.цена,
-                    ImagePath = g.изображение,
+                    ImagePath = g.изображение, 
                     Developer = g.Developer.разработчик,
                     Year = g.год_выпуска,
                     AvailableKeys = g.Keys.Count(k => !k.продан.HasValue || k.продан == false)

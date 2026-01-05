@@ -21,19 +21,19 @@ else
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <!-- Изображение -->
-                    @if (!string.IsNullOrEmpty(game.Image))
+                    @if (!string.IsNullOrEmpty(game.ImageUrl))
                     {
-                        <img src="/images/games/@game.Image" alt="@game.Title" class="card-img-top" />
+                        <img src="@game.ImageUrl" alt="@game.Title" class="card-img-top" />
                     }
 
                     <div class="card-body">
                         <h5 class="card-title">@game.Title</h5>
                         <p class="text-muted">@game.Developer • @game.Year</p>
 
-                        @if (game.Genres != null)
+                        @if (game.GameGenres != null)
                         {
                             <div class="mb-2">
-                                @foreach (var genre in game.Genres)
+                                @foreach (var genre in game.GameGenres)
                                 {
                                     <span class="badge bg-secondary me-1">@genre</span>
                                 }
