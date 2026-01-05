@@ -1,0 +1,120 @@
+﻿@model YaroshenkoShop.Controllers.CatalogController.GameDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Изображение -->
+        <div class="col-md-6">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="/images/games/@Model.ImageUrl"
+                     alt="@Model.Title"
+                     class="img-fluid rounded shadow">
+            }
+            else
+            {
+                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                     style="height: 400px;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+            }
+        </div>
+
+        <!-- Информация -->
+        <div class="col-md-6">
+            <h1>@Model.Title</h1>
+
+            <!-- Жанры -->
+            @if (Model.Genres != null && Model.Genres.Any())
+            {
+                <div class="mb-3">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <span class="badge bg-info me-1">@genre</span>
+                    }
+                </div>
+            }
+
+            <!-- Статус -->
+            <div class="mb-3">
+                @if (Model.IsInStock)
+                {
+                    <span class="badge bg-success fs-6 p-2">
+                        <i class="fas fa-check-circle me-1"></i>
+                        В наличии: @Model.AvailableKeys ключей
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-danger fs-6 p-2">
+                        <i class="fas fa-times-circle me-1"></i>
+                        Нет в наличии
+                    </span>
+                }
+            </div>
+
+            <!-- Цена -->
+            <h2 class="text-primary mb-4">@Model.FormattedPrice</h2>
+
+            <!-- Основная информация -->
+            <dl class="row">
+                <dt class="col-sm-4">Разработчик:</dt>
+                <dd class="col-sm-8">@Model.Developer</dd>
+
+                <dt class="col-sm-4">Год выпуска:</dt>
+                <dd class="col-sm-8">@Model.ReleaseYear</dd>
+
+                <dt class="col-sm-4">Всего ключей:</dt>
+                <dd class="col-sm-8">@Model.TotalKeys</dd>
+
+                <dt class="col-sm-4">Доступно:</dt>
+                <dd class="col-sm-8">@Model.AvailableKeys</dd>
+            </dl>
+
+            <!-- Кнопки -->
+            <div class="mt-4">
+                @if (Model.IsInStock)
+                {
+                    <button class="btn btn-success btn-lg me-3">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Купить сейчас
+                    </button>
+                    <button class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-heart me-2"></i>
+                        В избранное
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-secondary btn-lg" disabled>
+                        <i class="fas fa-bell me-2"></i>
+                        Уведомить о поступлении
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Описание -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>Описание</h3>
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">@Model.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка назад -->
+    <div class="mt-4">
+        <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>
+            Вернуться в каталог
+        </a>
+    </div>
+</div>

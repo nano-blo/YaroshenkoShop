@@ -1,64 +1,105 @@
-﻿@model dynamic
+﻿@model IEnumerable<YaroshenkoShop.Controllers.CatalogController.GameViewModel>
 
 @{
     ViewData["Title"] = "Каталог игр";
+    Layout = "_Layout";
 }
 
-<h1>🎮 Каталог игр</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">🎮 Каталог игр</h1>
 
-@if (Model == null || Model.Count == 0)
-{
-    <div class="alert alert-info">
-        <h4>Игры не найдены</h4>
-        <p>В каталоге пока нет игр.</p>
-    </div>
-}
-else
-{
-    <div class="row">
-        @foreach (var game in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <!-- Изображение -->
-                    @if (!string.IsNullOrEmpty(game.ImageUrl))
-                    {
-                        <img src="@game.ImageUrl" alt="@game.Title" class="card-img-top" />
-                    }
-
-                    <div class="card-body">
-                        <h5 class="card-title">@game.Title</h5>
-                        <p class="text-muted">@game.Developer • @game.Year</p>
-
-                        @if (game.GameGenres != null)
-                        {
-                            <div class="mb-2">
-                                @foreach (var genre in game.GameGenres)
-                                {
-                                    <span class="badge bg-secondary me-1">@genre</span>
-                                }
-                            </div>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">
+            <h4>Игр нет в наличии</h4>
+            <p>В данный момент все игры распроданы. Загляните позже!</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var game in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 game-card">
+                        <!-- Изображение игры -->
+                        @{
+                            var imagePath = !string.IsNullOrEmpty(game.ImageUrl)
+                            ? $"/images/games/{game.ImageUrl}"
+                            : "https://img.freepik.com/premium-photo/close-up-pug-looking-camera_1048944-15123958.jpg?semt=ais_hybrid&w=740";
                         }
+                        <img src="@imagePath" alt="@game.Title" class="card-img-top">
+                 
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@game.Title</h5>
 
-                        <p class="card-text">@game.Description</p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge bg-success">
-                                Ключей: @game.AvailableKeys
-                            </span>
-                            @if (game.Price.HasValue)
+                            <!-- Жанры -->
+                            @if (game.Genres != null && game.Genres.Any())
                             {
-                                <span class="h5 text-primary">@game.Price.Value.ToString("C")</span>
+                                <div class="mb-2">
+                                    @foreach (var genre in game.Genres.Take(3))
+                                    {
+                                        <span class="badge bg-secondary me-1">@genre</span>
+                                    }
+                                </div>
                             }
-                        </div>
 
-                        <a asp-action="Details" asp-route-id="@game.Id"
-                           class="btn btn-primary w-100 mt-2">
-                            Подробнее
-                        </a>
+                            <p class="card-text flex-grow-1">
+                                @if (game.Description?.Length > 100)
+                                {
+                                    @game.Description.Substring(0, 100)
+
+                                    <text>...</text>
+                                }
+                                else
+                                {
+                                    @game.Description
+                                }
+                            </p>
+
+                            <div class="mt-auto">
+                                <p class="mb-1">
+                                    <strong>Разработчик:</strong> @game.Developer
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Год:</strong> @game.ReleaseYear
+                                </p>
+                                <p class="mb-3">
+                                    <strong>Доступно ключей:</strong>
+                                    <span class="badge @(game.AvailableKeys > 5 ? "bg-success" : "bg-warning")">
+                                        @game.AvailableKeys
+                                    </span>
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="text-primary mb-0">
+                                        @(game.Price?.ToString("C") ?? "Цена не указана")
+                                    </h5>
+                                    <a href="@Url.Action("Details", new { id = game.Id })"
+                                       class="btn btn-primary">
+                                        Подробнее
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .game-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-    </div>
-}
+
+        .game-card .card-img-top {
+            border-bottom: 1px solid #dee2e6;
+        }
+</style>
