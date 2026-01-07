@@ -141,3 +141,6 @@ C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\Yaroshen
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.genruntimeconfig.cache
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\ref\YaroshenkoShop.dll
 C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.sourcelink.json
+C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\Nastyan\Desktop\YaroshenkoShop\YaroshenkoShop\obj\Debug\net8.0\YaroshenkoShop.MvcApplicationPartsAssemblyInfo.cs

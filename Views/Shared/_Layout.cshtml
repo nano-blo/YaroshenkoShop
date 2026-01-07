@@ -282,16 +282,36 @@
                             <i class="fas fa-list me-1"></i>Каталог
                         </a>
                     </li>
-                    @* <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-fire me-1" style="color: var(--orange-color);"></i>Акции
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-star me-1" style="color: var(--yellow-color);"></i>Новинки
-                        </a>
-                    </li> *@
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    <i class="fas fa-user me-1"></i>@User.Identity.Name
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="nav-link btn btn-link">
+                                        <i class="fas fa-sign-out-alt me-1"></i>Выйти
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">
+                                    <i class="fas fa-user-plus me-1"></i>Регистрация
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Войти
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </ul>
                 
                 <ul class="navbar-nav">

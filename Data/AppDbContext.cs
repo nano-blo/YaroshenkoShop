@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using YaroshenkoShop.Models;
 
 namespace YaroshenkoShop.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -15,13 +17,21 @@ namespace YaroshenkoShop.Data
         public DbSet<Genre> Genres { get; set; }
         public DbSet<GameGenre> GameGenres { get; set; }
         public DbSet<Key> Keys { get; set; }
-        // Добавьте остальные модели по мере необходимости
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Настройка связи многие-ко-многим между Game и Genre
+            modelBuilder.Entity<Developer>().ToTable("Developer", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<Game>().ToTable("Games", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<Key>().ToTable("Keys", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<Genre>().ToTable("Genres", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<GameGenre>().ToTable("GameGenres", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<Favorite>().ToTable("Favorites", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<BuyHistory>().ToTable("BuyHistory", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<User>().ToTable("Users", t => t.ExcludeFromMigrations());
+
             modelBuilder.Entity<GameGenre>()
                 .HasKey(gg => new { gg.id_игры, gg.id_жанра });
 
@@ -35,18 +45,17 @@ namespace YaroshenkoShop.Data
                 .WithMany(g => g.GameGenres)
                 .HasForeignKey(gg => gg.id_жанра);
 
-            // Убираем каскадное удаление для некоторых связей
             modelBuilder.Entity<Game>()
                 .HasOne(g => g.Developer)
                 .WithMany(d => d.Games)
                 .HasForeignKey(g => g.id_разработчика)
-                .OnDelete(DeleteBehavior.SetNull); // При удалении разработчика игры остаются
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Key>()
                 .HasOne(k => k.Game)
                 .WithMany(g => g.Keys)
                 .HasForeignKey(k => k.id_игры)
-                .OnDelete(DeleteBehavior.Cascade); // При удалении игры удаляются ключи
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
