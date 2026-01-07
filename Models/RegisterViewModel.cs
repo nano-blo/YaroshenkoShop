@@ -4,10 +4,6 @@ namespace YaroshenkoShop.Models
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Имя обязательно")]
-        [Display(Name = "Имя")]
-        public string Name { get; set; }
-
         [Required(ErrorMessage = "Email обязателен")]
         [EmailAddress(ErrorMessage = "Неверный формат email")]
         [Display(Name = "Email")]

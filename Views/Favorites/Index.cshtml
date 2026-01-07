@@ -1,0 +1,67 @@
+﻿@model IEnumerable<YaroshenkoShop.Models.Game>
+
+@{
+    ViewData["Title"] = "Избранное";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">
+        <i class="fas fa-heart me-2" style="color: #ff7600;"></i>
+        Избранное пользователя @User.Identity.Name
+    </h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            В избранном пока нет игр. Добавляйте игры через каталог!
+        </div>
+        <a href="@Url.Action("Index", "Catalog")" class="btn btn-primary">
+            <i class="fas fa-gamepad me-2"></i>Перейти в каталог
+        </a>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var game in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        @if (!string.IsNullOrEmpty(game.изображение))
+                        {
+                            <img src="/images/games/@game.изображение"
+                                 class="card-img-top"
+                                 alt="@game.название"
+                                 style="height: 200px; object-fit: cover;">
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@game.название</h5>
+                            <p class="card-text">@game.описание?.Substring(0, Math.Min(100, game.описание.Length))...</p>
+                            <p class="price" style="color: #ff7600; font-weight: bold;">
+                                @(game.цена?.ToString("C") ?? "Цена не указана")
+                            </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("Details", "Catalog", new { id = game.id_игры })"
+                                   class="btn btn-sm btn-primary">
+                                    Подробнее
+                                </a>
+
+                                <form asp-controller="Favorites" asp-action="Remove" method="post">
+                                    <input type="hidden" name="id" value="@game.id_игры" />
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

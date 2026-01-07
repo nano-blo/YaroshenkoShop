@@ -156,13 +156,31 @@
                                 </div>
 
                                 <!-- Кнопка -->
-                                <div class="mt-3">
-                                    <a href="@Url.Action("Details", new { id = game.Id })"
-                                       class="btn w-100"
-                                       style="background: linear-gradient(45deg, #6b007f, #d600ff); color: white; border: none;">
-                                        <i class="fas fa-info-circle me-2"></i>
-                                        Подробнее
-                                    </a>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <a href="@Url.Action("Details", new { id = game.Id })"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-info-circle"></i> Подробнее
+                                        </a>
+
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <form asp-controller="Favorites" asp-action="Add" method="post">
+                                                <input type="hidden" name="id" value="@game.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-heart"></i> В избранное
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Login", "Account")"
+                                               class="btn btn-sm btn-outline-secondary"
+                                               title="Войдите, чтобы добавить в избранное">
+                                                <i class="far fa-heart"></i> В избранное
+                                            </a>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
